@@ -5,4 +5,4 @@ authors = ["邱张华 <qiuzhanghua@icloud.com>"]
 edition = "2018"
 
 [dependencies]
-zip = "0.5"
+zip = "0.6.4"

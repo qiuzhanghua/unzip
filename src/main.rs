@@ -7,19 +7,20 @@ fn main() {
 }
 
 fn real_main() -> i32 {
-    let args: Vec<_> = std::env::args().collect();
-    if args.len() < 2 {
-        println!("Usage: {} <filename>", args[0]);
-        return 1;
-    }
-    let fname = std::path::Path::new(&*args[1]);
+    // let args: Vec<_> = std::env::args().collect();
+    // if args.len() < 2 {
+    //     println!("Usage: {} <filename>", args[0]);
+    //     return 1;
+    // }
+    // let fname = std::path::Path::new(&*args[1]);
+    let fname = "chinese.zip";
     let file = fs::File::open(&fname).unwrap();
 
     let mut archive = zip::ZipArchive::new(file).unwrap();
 
     for i in 0..archive.len() {
         let mut file = archive.by_index(i).unwrap();
-        // println!("{}", file.enclosed_name().unwrap());
+        // println!("{}", file.name());
         let outpath = match file.enclosed_name() {
             Some(path) => path.to_owned(),
             None => continue,
@@ -68,8 +69,10 @@ mod tests {
 
     #[test]
     fn test_encoding() {
-        let origin = "τ¢«σ╜ò";
+        let origin = "τ¢«σ╜ò"; // "目录";
         let s = origin.as_bytes();
+        println!("{:?}", origin.chars());
+        println!("{:?}", s.len());
         for c in s {
             println!("{:08b}", c);
         }
@@ -78,6 +81,13 @@ mod tests {
         for c in "目录".chars()  {
             println!("{:016b}", c as u16);
         }
-        assert_eq!(1 + 1, 3);
+        for c in "目录".as_bytes()  {
+            println!("{:08b}", c);
+        }
+
+        let ch ='目' as i32;
+        let ch_unicode = format!("{:X}", ch);
+        println!("ch:{:?}", ch_unicode);
+        assert_eq!(1 + 2, 3);
     }
 }
